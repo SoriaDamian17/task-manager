@@ -1,7 +1,8 @@
 # Golden React Template
-This project is a base template for a project in React, where it has all the settings for two environments: development and production, it has bundle optimization and code revision.
+This project is Build a Task Manager using React / Context API / Hooks.
 
 # Screen Shot
+![Alt text](doc/screenshot.png?raw=true "ScreenShot")
 
 ## How to use the project locally
 

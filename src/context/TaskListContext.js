@@ -1,16 +1,12 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useState, useEffect} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export const TaskListContext = createContext();
 
 const TaskListContextProvider = ({children}) => {
 
-    const [tasks, setTasks] = useState([
-        { title: 'Read the book', id: 1},
-        { title: 'Wash the car', id: 2},
-        { title: 'Write some code', id: 3},
-    ]);
-
+    const InitialState = JSON.parse(localStorage.getItem("tasks")) || [];
+    const [tasks, setTasks] = useState(InitialState);
     const [editItem, setEditItem] = useState(null);
 
     const addTask = title => {
@@ -29,13 +25,24 @@ const TaskListContextProvider = ({children}) => {
         setEditItem(tasks.find(task => task.id === id));
     };
 
+    const editTask = (title, id) => {
+        const newTask = tasks.map((task) => task.id === id ? {title, id} : task);
+        setTasks(newTask);
+        setEditItem(null);
+    };
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
+
     return (
         <TaskListContext.Provider value={{
             tasks,
-            editItem,
             addTask,
-            findItem,
+            editTask,
             removeTask,
+            findItem,
+            editItem,
             clearList
         }}>
             {children}
